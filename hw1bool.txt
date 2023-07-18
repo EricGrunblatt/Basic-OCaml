@@ -1,0 +1,22 @@
+(*Part 2.1*)
+type bool_expr = 
+  | Lit of string (*Lit represents a variable*)
+  | Not of bool_expr (*Not Operation*)
+  | And of bool_expr * bool_expr (*And Operation*)
+  | Or of bool_expr * bool_expr;; (*Or Operation*)
+
+let rec evaluateBool a boolA b boolB = function
+  | Lit x -> 
+      if x = a then (*If x = a, then truth value of a*)
+        boolA
+      else (*x = b, so truth value of b*)
+        boolB
+  | Not x -> not(evaluateBool a boolA b boolB x)
+  | And (x, y) -> (evaluateBool a boolA b boolB x) && (evaluateBool a boolA b boolB y)
+  | Or (x, y) -> (evaluateBool a boolA b boolB x) || (evaluateBool a boolA b boolB y);;
+
+let truth_table x y expr = 
+  [(true, true, evaluateBool x true y true expr); 
+   (true, false, evaluateBool x true y false expr);
+   (false, true, evaluateBool x false y true expr);
+   (false, false, evaluateBool x false y false expr)];;

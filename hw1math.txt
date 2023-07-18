@@ -1,0 +1,17 @@
+type expr = 
+  | Const of int (*Constant*)
+  | Var of string (*Variable*)
+  | Plus of arg (*Plus Operation*)
+  | Mult of arg (*Multiply Operation*)
+  | Minus of arg (*Minus Operation*)
+  | Div of arg (*Divide Operation*)
+and arg = {arg1: expr; arg2: expr};;
+
+let rec evaluate ex = 
+  match ex with
+  | Const x -> x (*Constant is itself*)
+  | Var x -> 0 (*Variable becomes 0 since you cannot evaluate it*)
+  | Plus {arg1 = expr1; arg2 = expr2} -> (evaluate expr1) + (evaluate expr2)
+  | Mult {arg1 = expr1; arg2 = expr2} -> (evaluate expr1) * (evaluate expr2)
+  | Minus {arg1 = expr1; arg2 = expr2} -> (evaluate expr1) - (evaluate expr2)
+  | Div {arg1 = expr1; arg2 = expr2} -> (evaluate expr1) / (evaluate expr2);;
